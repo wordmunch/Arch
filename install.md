@@ -16,14 +16,14 @@ Check network status:
 
 exit iwctl with `exit`
 
-----------------------------
-Update system clock
 
+Update system clock
+----------------------------
 
   `timedatectl set-ntp true`
 
 
-----------------------------
+==
 Partition disk
 ----------------------------
 
