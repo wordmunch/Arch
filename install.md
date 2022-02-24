@@ -1,4 +1,7 @@
-Connect to the internet
+*assumes iso*
+
+1 Connect to the internet
+----------------------------
 
 Enter wireless control untility with `iwctl`
 
@@ -17,26 +20,35 @@ Check network status:
 exit iwctl with `exit`
 
 
-Update system clock
+2 Update system clock
 ----------------------------
 
   `timedatectl set-ntp true`
 
 
-==
-Partition disk
+3 Partition disk
+----------------------------
+Use `fdisk` to format disks
+
+`fdisk -l` will list currect disks and show partitions
+
+Use `fdisk` to interact with disk:
+  `fdisk /dev/[...]`
+
+Delete with `d`, create new with `n`, change type with `t`
+
+Partition:
+- 512M for EFI boot partition
+- Make swap partition if desired
+- Use remainder for root
+
+----------------------------
+4 Format partitions
 ----------------------------
 
-  fdisk /dev/[...]
-
-----------------------------
-Set partition type
-----------------------------
-  In fdisk, use `t` to change type of EFI partition. Set to type 1
-
-----------------------------
-Format partitions
-----------------------------
+Format filesystem as ext4.
+Format swap with `mkswap`.
+Format EFI as FAT32.
 
 ```
   mkfs.ext4 /dev/[root]
@@ -45,7 +57,7 @@ Format partitions
 ```
 
 ----------------------------
-Mount the file systems
+5 Mount the file systems
 ----------------------------
 
   mount /dev/root_partition /mnt
@@ -53,13 +65,14 @@ Mount the file systems
   swapon /dev/swap_partition
 
 ----------------------------
-Install
+6 Optimize mirrors
 ----------------------------
 
   configure reflector
-```
-  /etc/xdg/reflector/reflector.conf
+  
+edit `/etc/xdg/reflector/reflector.conf`:
 
+```
   --save /etc/pacman.d/mirrorlist
   --country "United States"
   --protocol https
@@ -68,36 +81,35 @@ Install
 
   Enable reflector
 
-```
-  systemctl enable reflector.service
-```
+  `systemctl enable reflector.service`
 
-  install basic packages
+----------------------------
+7 Install basic packages
+----------------------------
+This covered my basics:
 
-```
-pacstrap /mnt base linux linux-firmware vim man-db man-pages sudo networkmanager
+  `pacstrap /mnt base linux linux-firmware vim man-db man-pages sudo networkmanager`
 
+----------------------------
+8 Create fstab file
+----------------------------
+
+  `genfstab -U /mnt >> /mnt/etc/fstab`
+
+----------------------------
+9 Enter root
+----------------------------
+
+  `arch-chroot /mnt`
 
 
 ----------------------------
-configure system
+10 Setup basic network info
 ----------------------------
 
-```
-genfstab -U /mnt >> /mnt/etc/fstab
-```
+Add hostname to hostname file:
 
-----------------------------
-Chroot
-----------------------------
-
-`arch-chroot /mnt`
-
-
-----------------------------
-Network
-----------------------------
-`hostnamectl set-hostname myhostname`
+  `hostnamectl set-hostname myhostname`
 
 /etc/hosts
 127.0.0.1        localhost
@@ -106,15 +118,15 @@ Network
 
 
 ----------------------------
-Password
+11 Create password
 ----------------------------
 set root password with
 
-`passwd`
+  `passwd`
 
 
 ----------------------------
-GRUB
+12 GRUB
 ----------------------------
 get needed packages:
 
@@ -130,7 +142,7 @@ configure GRUB
 
 
 ----------------------------
-Set up desktop (ignore if ricing)
+13 Set up desktop (ignore if ricing)
 ----------------------------
 Install display server:
 
@@ -142,10 +154,17 @@ Install GNOME:
 
 
 ----------------------------
-Prep for launch
+14 Prep for launch
 ----------------------------
 launch GNOME Display Manager when system starts:
   `systemctl enable gdm.service`
 
 launch Network Manager when system starts:
   `systemctl enable NetworkManager.service`
+
+----------------------------
+15 Reboot
+----------------------------
+Exit chroot with `exit`
+
+reboot with `reboot`
