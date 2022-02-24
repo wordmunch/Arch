@@ -1,22 +1,26 @@
 Connect to the internet
 
-  #enter iwctl
-  iwctl
+Enter wireless control untility with `iwctl`
 
-    station wlan0 scan
-    station wlan0 get-networks
-    station wlan0 connect SSID
+Scan for networks:
+  `station wlan0 scan`
 
-    #Check status
-    station wlan0 show
+List networks:
+  `station wlan0 get-networks`
 
-  exit
+Connect to network:
+  `station wlan0 connect SSID`
+
+Check network status:
+  `station wlan0 show`
+
+exit iwctl with `exit`
 
 ----------------------------
 Update system clock
-----------------------------
 
-  timedatectl set-ntp true
+
+  `timedatectl set-ntp true`
 
 
 ----------------------------
