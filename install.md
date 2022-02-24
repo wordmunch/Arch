@@ -42,7 +42,7 @@ Partition:
 - Make swap partition if desired
 - Use remainder for root
 
-----------------------------
+
 4 Format partitions
 ----------------------------
 
@@ -56,7 +56,7 @@ Format EFI as FAT32.
   mkfs.fat -F 32 /dev/[EFI]
 ```
 
-----------------------------
+
 5 Mount the file systems
 ----------------------------
 
@@ -64,7 +64,7 @@ Format EFI as FAT32.
   mount /dev/efi_system_partition /mnt/boot
   swapon /dev/swap_partition
 
-----------------------------
+
 6 Optimize mirrors
 ----------------------------
 
@@ -83,27 +83,27 @@ edit `/etc/xdg/reflector/reflector.conf`:
 
   `systemctl enable reflector.service`
 
-----------------------------
+
 7 Install basic packages
 ----------------------------
 This covered my basics:
 
   `pacstrap /mnt base linux linux-firmware vim man-db man-pages sudo networkmanager`
 
-----------------------------
+
 8 Create fstab file
 ----------------------------
 
   `genfstab -U /mnt >> /mnt/etc/fstab`
 
-----------------------------
+
 9 Enter root
 ----------------------------
 
   `arch-chroot /mnt`
 
 
-----------------------------
+
 10 Setup basic network info
 ----------------------------
 
@@ -117,7 +117,7 @@ Add hostname to hostname file:
 127.0.1.1        myhostname
 
 
-----------------------------
+
 11 Create password
 ----------------------------
 set root password with
@@ -125,7 +125,7 @@ set root password with
   `passwd`
 
 
-----------------------------
+
 12 GRUB
 ----------------------------
 get needed packages:
@@ -141,7 +141,7 @@ configure GRUB
   `grub-mkconfig -o /boot/grub/grub.cfg`
 
 
-----------------------------
+
 13 Set up desktop (ignore if ricing)
 ----------------------------
 Install display server:
@@ -153,7 +153,6 @@ Install GNOME:
   `pacman -S gnome gnome-extra`
 
 
-----------------------------
 14 Prep for launch
 ----------------------------
 launch GNOME Display Manager when system starts:
@@ -162,7 +161,7 @@ launch GNOME Display Manager when system starts:
 launch Network Manager when system starts:
   `systemctl enable NetworkManager.service`
 
-----------------------------
+
 15 Reboot
 ----------------------------
 Exit chroot with `exit`
