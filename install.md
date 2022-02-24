@@ -6,15 +6,19 @@
 Enter wireless control untility with `iwctl`
 
 Scan for networks:
+
   `station wlan0 scan`
 
 List networks:
+
   `station wlan0 get-networks`
 
 Connect to network:
+
   `station wlan0 connect SSID`
 
 Check network status:
+
   `station wlan0 show`
 
 exit iwctl with `exit`
